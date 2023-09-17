@@ -4,6 +4,7 @@ import requests
 import pandas as pd
 import re
 
+
 app = FastAPI()
 
 def scrape_movies():

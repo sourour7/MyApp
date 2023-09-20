@@ -1,17 +1,20 @@
-# Utilisez une image Python officielle en tant qu'image parente
-FROM python:3.11-slim
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim-buster
 
-# Définissez le répertoire de travail à /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Copiez le contenu du répertoire actuel dans le conteneur à /app
-COPY . /app
+# Copy the requirements.txt file into the container
+COPY requirements.txt .
 
-# Installez les dépendances spécifiées dans requirements.txt
-RUN pip install -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Exposez le port 80 pour que FastAPI puisse écouter les requêtes HTTP
-EXPOSE 80
+# Copy the rest of your application code into the container
+COPY . .
 
-# Définissez la commande pour lancer l'application FastAPI
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
+# Expose the port your FastAPI app will run on
+EXPOSE 8000
+
+# Define the command to run your FastAPI app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
